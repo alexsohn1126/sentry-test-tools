@@ -1,4 +1,4 @@
-# Sentry Test Tools (Leander)
+# Sentry Test Tools (Alex)
 
 A repo of error generating projects to debug sentry locally.
 

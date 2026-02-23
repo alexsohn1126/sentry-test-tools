@@ -107,14 +107,14 @@
             "name": "assignee",
             "label": "If this does alert does go off, who are we firing?",
             "options": [
-              ["member-0", "@leander"],
-              ["member-1", "@leander"],
-              ["member-2", "@leander"],
-              ["member-3", "@leander"],
-              ["member-4", "@leander"],
-              ["member-5", "@leander"],
-              ["member-6", "@leander"],
-              ["not-leander", "@not-leander"]
+              ["member-0", "@alex"],
+              ["member-1", "@alex"],
+              ["member-2", "@alex"],
+              ["member-3", "@alex"],
+              ["member-4", "@alex"],
+              ["member-5", "@alex"],
+              ["member-6", "@alex"],
+              ["not-alex", "@not-alex"]
             ]
           }
         ]

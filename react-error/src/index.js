@@ -10,9 +10,9 @@ import App from "./App";
 // FullStory.init({ orgId: "164KVD" });
 
 Sentry.init({
-  dsn: "https://4bb8adf9789742c590395533a427a0e1@leeandher.ngrok.io/8",
+  dsn: "https://4bb8adf9789742c590395533a427a0e1@alexsohn.ngrok.io/8",
   integrations: [
-    // new SentryFullStory("leander-test"),
+    // new SentryFullStory("alex-test"),
     new TracingIntegrations.BrowserTracing({
       tracingOrigins: ["localhost", "catfact.ninja", /^\//],
       shouldCreateSpanForRequest: (_url) => true,

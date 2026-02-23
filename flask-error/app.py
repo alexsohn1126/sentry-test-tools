@@ -6,25 +6,25 @@ from flask import Flask
 from sentry_sdk.integrations.flask import FlaskIntegration
 
 LOCAL_SENTRY_DSN = (
-    "https://c6b8c6c21bad812e48e2d115968a55e5@leeandher.ngrok.io/3"  # robots
+    "https://c6b8c6c21bad812e48e2d115968a55e5@alexsohn.ngrok.io/3"  # robots
 )
 LOCAL_SENTRY_DSN = (
-    "https://87bca3472b590976a030e0e6456b72cc@leeandher.ngrok.io/2"  # humans
+    "https://87bca3472b590976a030e0e6456b72cc@alexsohn.ngrok.io/2"  # humans
 )
 LOCAL_GETSENTRY_DSN = (
-    "https://287a7215db7931a63e5d7a2f62506f9a@leeandher.ngrok.io/4506974030528528"
+    "https://287a7215db7931a63e5d7a2f62506f9a@alexsohn.ngrok.io/4506974030528528"
 )
 
 # devsentry-ecosystem
 ECOSYSTEM_DSN = "https://234c699ac7f8b1dfd98765149a65b9fd@o4506792933130240.ingest.us.sentry.io/4509407223152640"
-# sentry-leander-eu // legacy-data-forwarding
+# sentry-alex-eu // legacy-data-forwarding
 LEGACY_DATA_FORWARD_DSN = "https://2e0ab03d072b9e54174406624fbf4ecc@o4509708210274304.ingest.de.sentry.io/4510358464954448"
 
-# sentry-leander // all-robots
-SENTRY_LEANDER_DSN = "https://567e5289194ac1e211357003733f1894@o951660.ingest.us.sentry.io/4510818206810112"
+# sentry-alex // all-robots
+SENTRY_ALEX_DSN = "https://567e5289194ac1e211357003733f1894@o951660.ingest.us.sentry.io/4510818206810112"
 #  lxyz2 // django
 LXYZ2_DSN = "https://2d557e71645717ee2b69cb7caf4c4d1c@o1115830.ingest.us.sentry.io/4508609084981249"
-# leeandher // work-funnel
+# alexsohn // work-funnel
 WORK_FUNNEL_DSN = "https://1de16b5fb20c0dfe0379ec83d78194a5@o209069.ingest.us.sentry.io/4509707355947008"
 
 SILO_DSN = "https://e9a3d278c7729cdf4e9d2162ba377d83@test-region.test.my.sentry.io/4505992947957808"
@@ -40,7 +40,7 @@ parser.add_argument(
         "getsentry",
         "lxyz2",
         "ecosystem",
-        "leander",
+        "alex",
         "temp",
         "work-funnel",
     ],
@@ -57,8 +57,8 @@ def dsn_selector():
         return LXYZ2_DSN
     elif args.instance == "ecosystem":
         return ECOSYSTEM_DSN
-    elif args.instance == "leander":
-        return SENTRY_LEANDER_DSN
+    elif args.instance == "alex":
+        return SENTRY_ALEX_DSN
     elif args.instance == "work-funnel":
         return WORK_FUNNEL_DSN
     elif args.instance == "temp":
@@ -104,8 +104,8 @@ def error():
     sentry_sdk.set_user(
         {
             "id": 12,
-            "email": "leander.rodrigues@sentry.io",
-            "username": "leeandher",
+            "email": "alex.sohn@sentry.io",
+            "username": "alexsohn",
             "ip_address": "12.34.56.78",
             "other": "property",
             "location": "canada",

@@ -1,9 +1,9 @@
-* @sentry-ecosystem/leander-test1
+* @sentry-ecosystem/alex-test1
 
-react-error/* @sentry-ecosystem/leander-test2 @leeandher
-react-error/*.css @sentry-ecosystem/leander-test4 @leeandher-test2
-react-error/src/App.js @sentry-ecosystem/leander-test1
-react-error/*.js  @sentry-ecosystem/leander-test3 @leeandher-test1
+react-error/* @sentry-ecosystem/alex-test2 @alexsohn
+react-error/*.css @sentry-ecosystem/alex-test4 @alexsohn-test2
+react-error/src/App.js @sentry-ecosystem/alex-test1
+react-error/*.js  @sentry-ecosystem/alex-test3 @alexsohn-test1
 
-flask-error/* @sentry-ecosystem/leander-test4 @leeandher
-flask-error/*.py @sentry-ecosystem/leander-test5 @leeandher-test1
+flask-error/* @sentry-ecosystem/alex-test4 @alexsohn
+flask-error/*.py @sentry-ecosystem/alex-test5 @alexsohn-test1

@@ -9,7 +9,7 @@ def fetch_order_details(order_id):
             {"sku": "WIDGET-42", "qty": 2, "price": 19.99},
             {"sku": "GADGET-7", "qty": 1, "price": 49.99},
         ],
-        "customer": {"id": 12, "name": "Leander"},
+        "customer": {"id": 12, "name": "Alex"},
         "status": "processing",
         "shipped_at": None,
     })
