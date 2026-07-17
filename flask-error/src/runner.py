@@ -17,14 +17,18 @@ def fetch_order_details(order_id, coupon=None):
         "shipped_at": None,
     }
     if coupon is not None:
-        logger.info("Applying coupon to order_id=%s: %s", order_id, coupon)
+        logger.info("coupon was none", order_id, coupon)
         order["coupon"] = coupon
     response = json.dumps(order)
     return json.loads(response)
 
 
+def get_discount(order):
+    return order.get("coupon", {}).get("percent", 0) / 100
+
+
 def error():
     order = fetch_order_details("ORD-20260212-1847")
     total = sum(item["price"] * item["qty"] for item in order["items"])
-    discount = order.get("coupon", {}).get("percent", 0) / 100
+    discount = get_discount(order)
     final_price = total * (1 - discount)
