@@ -1,5 +1,8 @@
 import json
+import logging
 from datetime import datetime
+
+logger = logging.getLogger(__name__)
 
 
 def fetch_order_details(order_id):
@@ -16,8 +19,18 @@ def fetch_order_details(order_id):
     return json.loads(response)
 
 
+def get_discount(order):
+    coupon = order.get("coupon")
+    if coupon is None:
+        logger.info("No coupon found for order %s, applying 0%% discount", order.get("order_id"))
+        return 0
+    percent = coupon.get("percent", 0)
+    logger.info("Applying coupon discount of %s%% for order %s", percent, order.get("order_id"))
+    return percent / 100
+
+
 def error():
     order = fetch_order_details("ORD-20260212-1847")
     total = sum(item["price"] * item["qty"] for item in order["items"])
-    discount = order.get("coupon", {}).get("percent", 0) / 100
+    discount = get_discount(order)
     final_price = total * (1 - discount)
