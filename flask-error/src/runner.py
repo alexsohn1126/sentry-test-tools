@@ -22,7 +22,7 @@ def fetch_order_details(order_id):
 def error():
     order = fetch_order_details("ORD-20260212-1847")
     total = sum(item["price"] * item["qty"] for item in order["items"])
-    if order.get("coupon") is None:
-        logger.warning("Coupon field missing for order %s", order.get("order_id"))
     discount = order.get("coupon", {}).get("percent", 0) / 100
+    if not discount:
+        logger.warning("Coupon field missing for order %s", order.get("order_id"))
     final_price = total * (1 - discount)
