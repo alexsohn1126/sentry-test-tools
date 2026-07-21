@@ -131,6 +131,24 @@ def error():
         error()
 
 
+@app.route("/error7")
+def error7():
+    rows = [
+        ["order_id", "total", "currency", "region"],
+        ["ORD-001", "149.99", "USD"],          # malformed: missing 'region'
+        ["ORD-002", "89.50", "EUR", "eu-west"],
+    ]
+    headers = rows[0]
+    for row in rows[1:]:
+        if len(row) != len(headers):
+            # Skip malformed rows that don't match the header column count
+            continue
+        record = dict(zip(headers, row))
+        shipping_zone = record.get("region", "unknown").upper()
+
+    return "Export parsed"
+
+
 @app.route("/txn")
 def transaction():
     counter = 1
