@@ -1,5 +1,8 @@
 import argparse
+import logging
 from datetime import datetime
+
+logger = logging.getLogger(__name__)
 
 import sentry_sdk
 from flask import Flask
@@ -141,7 +144,10 @@ def error7():
     headers = rows[0]
     for row in rows[1:]:
         if len(row) != len(headers):
-            # Skip malformed rows that don't match the header column count
+            logger.warning(
+                "Skipping malformed row with %d columns (expected %d): %r",
+                len(row), len(headers), row,
+            )
             continue
         record = dict(zip(headers, row))
         shipping_zone = record.get("region", "unknown").upper()
