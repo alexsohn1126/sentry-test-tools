@@ -1,5 +1,8 @@
 import argparse
+import logging
 from datetime import datetime
+
+logger = logging.getLogger(__name__)
 
 import sentry_sdk
 from flask import Flask
@@ -129,6 +132,27 @@ def error():
         application = {}
 
         error()
+
+
+@app.route("/error7")
+def error7():
+    rows = [
+        ["order_id", "total", "currency", "region"],
+        ["ORD-001", "149.99", "USD"],          # malformed: missing 'region'
+        ["ORD-002", "89.50", "EUR", "eu-west"],
+    ]
+    headers = rows[0]
+    for row in rows[1:]:
+        if len(row) != len(headers):
+            logger.warning(
+                "Skipping malformed row with %d columns (expected %d): %r",
+                len(row), len(headers), row,
+            )
+            continue
+        record = dict(zip(headers, row))
+        shipping_zone = record.get("region", "unknown").upper()
+
+    return "Export parsed"
 
 
 @app.route("/txn")
