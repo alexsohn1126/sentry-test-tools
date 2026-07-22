@@ -10,3 +10,5 @@ jobs:
     steps:
       - name: Say hello
         run: echo "Nothing to see here 👋"
+      - name: Say goodbye
+        run: echo "Bye for now 👋"
