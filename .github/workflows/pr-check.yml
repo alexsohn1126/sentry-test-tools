@@ -1,0 +1,12 @@
+name: PR Check
+
+on:
+  pull_request:
+
+jobs:
+  noop:
+    name: no-op check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Say hello
+        run: echo "Nothing to see here 👋"
