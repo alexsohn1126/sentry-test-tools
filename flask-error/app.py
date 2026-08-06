@@ -158,8 +158,7 @@ def error3():
             "username": "alexsohn",
         }
     )
-    DB_PORT = 5432
-    config = {"database": {"host": "localhost", "port": DB_PORT, "credentials": {"password": os.environ.get("DB_PASSWORD", "secret")}}}
+    config = {"database": {"host": "localhost", "port": 5432, "credentials": {"password": os.environ.get("DB_PASSWORD", "secret")}}}
     db_password = config["database"]["credentials"]["password"]
     return f"Connected with password: {db_password}"
 
