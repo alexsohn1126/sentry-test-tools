@@ -131,6 +131,29 @@ def error():
         error()
 
 
+@app.route("/error3")
+def error3():
+    import os
+
+    sentry_sdk.set_user(
+        {
+            "id": 73,
+            "username": "alexsohn",
+        }
+    )
+    config = {
+        "database": {
+            "host": "localhost",
+            "port": 5432,
+            "credentials": {
+                "password": os.environ.get("DB_PASSWORD", ""),
+            },
+        }
+    }
+    db_password = config["database"].get("credentials", {}).get("password", "")
+    return f"Connected with password: {db_password}"
+
+
 @app.route("/txn")
 def transaction():
     counter = 1
