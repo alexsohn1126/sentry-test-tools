@@ -150,7 +150,7 @@ def error3():
             },
         }
     }
-    db_password = config["database"]["credentials"]["password"]
+    db_password = config["database"].get("credentials", {}).get("password", "")
     return f"Connected with password: {db_password}"
 
 
