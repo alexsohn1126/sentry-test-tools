@@ -23,6 +23,6 @@ def error():
     order = fetch_order_details("ORD-20260212-1847")
     total = sum(item["price"] * item["qty"] for item in order["items"])
     if "coupon" not in order:
-        logger.warning("No coupon found for order %s; applying 0%% discount", order.get("order_id"))
+        logger.warning("No coupon found for order; applying 0% discount", extra={"order_id": order.get("order_id")})
     discount = order.get("coupon", {}).get("percent", 0) / 100
     final_price = total * (1 - discount)
