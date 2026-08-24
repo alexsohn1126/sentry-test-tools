@@ -1,7 +1,10 @@
 import argparse
+import logging
 import os
 import random
 from datetime import datetime
+
+logger = logging.getLogger(__name__)
 
 import sentry_sdk
 from flask import Flask
@@ -202,9 +205,13 @@ def error5():
     )
     import json
 
-    # Simulate receiving a webhook payload with malformed UTF-8 bytes
-    raw_payload = b'{"event": "invoice.paid", "customer": "\xc3\x28", "amount": 250}'
-    decoded = raw_payload.decode("utf-8")
+    # Simulate receiving a webhook payload
+    raw_payload = b'{"event": "invoice.paid", "customer": "\xc3\xa9", "amount": 250}'
+    try:
+        decoded = raw_payload.decode("utf-8")
+    except UnicodeDecodeError as e:
+        logger.error("Failed to decode webhook payload: %s", e)
+        return f"Invalid payload encoding: {e}", 400
     event = json.loads(decoded)
     return f"Webhook processed: {event['customer']}"
 
