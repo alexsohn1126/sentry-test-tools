@@ -204,7 +204,11 @@ def error5():
 
     # Simulate receiving a webhook payload with malformed UTF-8 bytes
     raw_payload = b'{"event": "invoice.paid", "customer": "\xc3\x28", "amount": 250}'
-    decoded = raw_payload.decode("utf-8")
+    try:
+        decoded = raw_payload.decode("utf-8")
+    except UnicodeDecodeError:
+        from flask import abort
+        abort(400, description="Malformed webhook payload: invalid UTF-8 encoding")
     event = json.loads(decoded)
     return f"Webhook processed: {event['customer']}"
 
