@@ -1,7 +1,10 @@
 import argparse
+import logging
 import os
 import random
 from datetime import datetime
+
+logger = logging.getLogger(__name__)
 
 import sentry_sdk
 from flask import Flask
@@ -207,6 +210,7 @@ def error5():
     try:
         decoded = raw_payload.decode("utf-8")
     except UnicodeDecodeError as e:
+        logger.error("Failed to decode webhook payload: %s", e)
         return f"Invalid payload encoding: {e}", 400
     event = json.loads(decoded)
     return f"Webhook processed: {event['customer']}"
