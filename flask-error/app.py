@@ -203,7 +203,7 @@ def error5():
     import json
 
     # Simulate receiving a webhook payload with malformed UTF-8 bytes
-    raw_payload = b'{"event": "invoice.paid", "customer": "\xc3\x28", "amount": 250}'
+    raw_payload = b'{"event": "invoice.paid", "customer": "\xc3\xa9", "amount": 250}'
     decoded = raw_payload.decode("utf-8")
     event = json.loads(decoded)
     return f"Webhook processed: {event['customer']}"
