@@ -19,5 +19,6 @@ def fetch_order_details(order_id):
 def error():
     order = fetch_order_details("ORD-20260212-1847")
     total = sum(item["price"] * item["qty"] for item in order["items"])
-    discount = order["coupon"]["percent"] / 100
+    coupon = order.get("coupon")
+    discount = coupon["percent"] / 100 if coupon else 0
     final_price = total * (1 - discount)
