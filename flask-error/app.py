@@ -1,4 +1,5 @@
 import argparse
+import logging
 import os
 import random
 from datetime import datetime
@@ -144,8 +145,12 @@ def error2():
         {"name": "Jordan", "age": None},
         {"name": "Sam", "age": 25},
     ]
-    # TypeError: '>' not supported between instances of 'NoneType' and 'int'
-    eligible = [u for u in users if u["age"] > 18]
+    eligible = []
+    for u in users:
+        if u["age"] is None:
+            logging.warning("Skipping user %r: age is None", u["name"])
+        elif u["age"] > 18:
+            eligible.append(u)
     return f"Eligible users: {eligible}"
 
 
