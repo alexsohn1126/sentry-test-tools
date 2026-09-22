@@ -25,5 +25,6 @@ def error():
     coupon = order.get("coupon")
     if coupon is None:
         logger.warning("Order %s has no coupon field; defaulting to 0%% discount", order.get("order_id"))
+    # adsfasdfasdfasdfa
     discount = (coupon or {}).get("percent", 0) / 100
     final_price = total * (1 - discount)
