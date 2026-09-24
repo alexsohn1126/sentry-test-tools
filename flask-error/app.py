@@ -1,4 +1,5 @@
 import argparse
+import logging
 import os
 import random
 from datetime import datetime
@@ -75,6 +76,8 @@ sentry_sdk.init(
 
 app = Flask(__name__)
 
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 @app.route("/")
 def home():
@@ -145,7 +148,11 @@ def error2():
         {"name": "Sam", "age": 25},
     ]
     # In ontario the age limit is 19
-    eligible = [u for u in users if u["age"] != None and u["age"] > 19]
+    skipped = [u for u in users if u["age"] is None]
+    if skipped:
+        logger.warning("Skipping %d user(s) with missing age: %s", len(skipped), [u["name"] for u in skipped])
+    eligible = [u for u in users if u["age"] is not None and u["age"] > 19]
+    logger.info("Eligible users found: %s", eligible)
     return f"Eligible users: {eligible}"
 
 
