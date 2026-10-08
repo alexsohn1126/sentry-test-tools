@@ -158,7 +158,7 @@ def error3():
             "username": "alexsohn",
         }
     )
-    config = {"database": {"host": "localhost", "port": 5432}}
+    config = {"database": {"host": "localhost", "port": 5432, "credentials": {"password": "secret"}}}
     # KeyError: 'credentials'
     db_password = config["database"]["credentials"]["password"]
     return f"Connected with password: {db_password}"
