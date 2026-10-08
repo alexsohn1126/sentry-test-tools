@@ -245,11 +245,23 @@ def error7():
         ["ORD-002", "89.50", "EUR", "eu-west"],
     ]
     headers = rows[0]
+    skipped = 0
     for row in rows[1:]:
+        if len(row) != len(headers):
+            # zip() would silently drop trailing columns; skip malformed rows
+            app.logger.warning(
+                "Skipping malformed export row %r: expected %d columns, got %d",
+                row[0] if row else None,
+                len(headers),
+                len(row),
+            )
+            skipped += 1
+            continue
         record = dict(zip(headers, row))
-        # raises KeyError on the row missing 'region'
-        shipping_zone = record["region"].upper()
+        shipping_zone = (record.get("region") or "UNKNOWN").upper()
 
+    if skipped:
+        return f"Export parsed ({skipped} malformed row(s) skipped)"
     return "Export parsed"
 
 
