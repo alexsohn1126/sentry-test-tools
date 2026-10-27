@@ -12,6 +12,7 @@ def fetch_order_details(order_id):
         "customer": {"id": 12, "name": "Alex"},
         "status": "processing",
         "shipped_at": None,
+        "coupon": {"percent": 10},
     })
     return json.loads(response)
 
@@ -19,5 +20,5 @@ def fetch_order_details(order_id):
 def error():
     order = fetch_order_details("ORD-20260212-1847")
     total = sum(item["price"] * item["qty"] for item in order["items"])
-    discount = order["coupon"]["percent"] / 100
+    discount = order.get("coupon", {}).get("percent", 0) / 100
     final_price = total * (1 - discount)
