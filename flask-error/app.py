@@ -158,10 +158,24 @@ def error3():
             "username": "alexsohn",
         }
     )
-    config = {"database": {"host": "localhost", "port": 5432}}
-    # KeyError: 'credentials'
-    db_password = config["database"]["credentials"]["password"]
-    return f"Connected with password: {db_password}"
+    config = {
+        "database": {
+            "host": "localhost",
+            "port": 5432,
+            "credentials": {"password": os.environ.get("DB_PASSWORD")},
+        }
+    }
+    db_config = config["database"]
+    db_password = db_config.get("credentials", {}).get("password")
+    if not db_password:
+        sentry_sdk.capture_message(
+            "Database password is not configured (set DB_PASSWORD)",
+            level="error",
+            extras={"database_config_keys": sorted(db_config.keys())},
+        )
+        return "Database password is not configured (set DB_PASSWORD)", 503
+    host, port = db_config["host"], db_config["port"]
+    return "Connected to {}:{}".format(host, port)
 
 
 @app.route("/error4")
