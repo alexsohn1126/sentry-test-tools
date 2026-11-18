@@ -184,8 +184,8 @@ def error4():
             raise RecursionError(
                 f"Maximum refund retry depth exceeded after {attempt} attempts for refund RF-9182"
             )
-        # simulate a failing refund that accidentally recurses without incrementing
-        retry_refund(attempt)
+        # simulate a failing refund; retry with an incremented attempt counter
+        retry_refund(attempt + 1)
 
     retry_refund(1)
     return "Refund processed"
