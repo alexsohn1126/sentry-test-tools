@@ -144,8 +144,8 @@ def error2():
         {"name": "Jordan", "age": None},
         {"name": "Sam", "age": 25},
     ]
-    # TypeError: '>' not supported between instances of 'NoneType' and 'int'
-    eligible = [u for u in users if u["age"] > 18]
+    # Skip users with no age; comparing None to an int raises TypeError
+    eligible = [u for u in users if u["age"] is not None and u["age"] > 18]
     return f"Eligible users: {eligible}"
 
 
