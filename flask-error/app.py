@@ -4,7 +4,7 @@ import random
 from datetime import datetime
 
 import sentry_sdk
-from flask import Flask
+from flask import Flask, jsonify
 from sentry_sdk.integrations.flask import FlaskIntegration
 
 LOCAL_SENTRY_DSN = "https://6c38fd78856456eea748437c435e3423@o4511065992724480.ingest.us.sentry.io/4511263749832704"
@@ -220,11 +220,39 @@ def error6():
     )
     # Simulate a race condition where inventory goes negative
     inventory = {"SKU-8812": 0}
+    sku = "SKU-8812"
     requested_qty = 3
-    remaining = inventory["SKU-8812"] - requested_qty
+    available = inventory[sku]
+    remaining = available - requested_qty
     if remaining < 0:
-        raise ValueError(
-            f"Inventory underflow for SKU-8812: attempted to reserve {requested_qty} units but only 0 available (balance would be {remaining})"
+        message = (
+            f"Inventory underflow for {sku}: attempted to reserve "
+            f"{requested_qty} units but only {available} available "
+            f"(balance would be {remaining})"
+        )
+        # Insufficient stock is an expected business outcome, not a crash:
+        # keep it visible in Sentry with the offending values attached.
+        with sentry_sdk.push_scope() as scope:
+            scope.set_context(
+                "inventory",
+                {
+                    "sku": sku,
+                    "requested": requested_qty,
+                    "available": available,
+                    "remaining": remaining,
+                },
+            )
+            sentry_sdk.capture_message(message, level="warning")
+        return (
+            jsonify(
+                {
+                    "error": message,
+                    "sku": sku,
+                    "requested": requested_qty,
+                    "available": available,
+                }
+            ),
+            409,
         )
     return f"Reserved {requested_qty} units"
 
