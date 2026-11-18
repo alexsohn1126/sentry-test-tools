@@ -245,12 +245,31 @@ def error7():
         ["ORD-002", "89.50", "EUR", "eu-west"],
     ]
     headers = rows[0]
+    skipped = 0
     for row in rows[1:]:
+        if len(row) != len(headers):
+            # Malformed row (e.g. a silently dropped column): report it with
+            # the offending values instead of crashing on a missing key.
+            with sentry_sdk.push_scope() as scope:
+                scope.set_context(
+                    "csv_row",
+                    {
+                        "row": row,
+                        "headers": headers,
+                        "missing_columns": headers[len(row):],
+                    },
+                )
+                sentry_sdk.capture_message(
+                    "CSV export row has %d fields, expected %d"
+                    % (len(row), len(headers)),
+                    level="warning",
+                )
+            skipped += 1
+            continue
         record = dict(zip(headers, row))
-        # raises KeyError on the row missing 'region'
         shipping_zone = record["region"].upper()
 
-    return "Export parsed"
+    return "Export parsed (%d malformed row(s) skipped)" % skipped
 
 
 @app.route("/login", methods=["GET", "POST"])
